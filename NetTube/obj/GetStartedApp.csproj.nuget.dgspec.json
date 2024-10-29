@@ -1,0 +1,120 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/sunryze/RiderProjects/GetStartedApp/GetStartedApp/GetStartedApp.csproj": {}
+  },
+  "projects": {
+    "/home/sunryze/RiderProjects/GetStartedApp/GetStartedApp/GetStartedApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/sunryze/RiderProjects/GetStartedApp/GetStartedApp/GetStartedApp.csproj",
+        "projectName": "GetStartedApp",
+        "projectPath": "/home/sunryze/RiderProjects/GetStartedApp/GetStartedApp/GetStartedApp.csproj",
+        "packagesPath": "/home/sunryze/.nuget/packages/",
+        "outputPath": "/home/sunryze/RiderProjects/GetStartedApp/GetStartedApp/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/sunryze/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Avalonia": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "Avalonia.Desktop": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "Avalonia.Diagnostics": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "Avalonia.Fonts.Inter": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "Avalonia.Themes.Fluent": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "Concentus": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
+            "Concentus.Oggfile": {
+              "target": "Package",
+              "version": "[1.0.6, )"
+            },
+            "JAJ.Packages.MiniAudioEx": {
+              "target": "Package",
+              "version": "[1.7.2, )"
+            },
+            "LibVLCSharp": {
+              "target": "Package",
+              "version": "[3.9.0, )"
+            },
+            "Matroska.Muxer": {
+              "target": "Package",
+              "version": "[0.0.11-preview-01, )"
+            },
+            "NAudio": {
+              "target": "Package",
+              "version": "[2.2.1, )"
+            },
+            "NetCoreAudio": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "YoutubeExplode": {
+              "target": "Package",
+              "version": "[6.4.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/sunryze/.dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

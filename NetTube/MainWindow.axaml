@@ -1,0 +1,66 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="NetTube.MainWindow"
+        Title="NetTube"
+        Background="DimGray">
+    <DockPanel LastChildFill="True">
+        <!-- side panel -->
+        <Grid RowDefinitions="*,*" Background="SteelBlue">
+            <StackPanel Grid.Row="0" Width="200" Orientation="Vertical" Margin="15,15,15,0" Spacing="15">
+                <TextBlock Text="NetTube" FontFamily="Poppins" FontSize="24" FontWeight="SemiBold" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <Border Height="1" Opacity="0.5" Background="LightGray" Margin="5, 0, 5, 0"/>
+                
+                <Button Background="White" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Text="Browse" FontSize="16" FontFamily="Poppins" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                
+                <Button Background="White" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        
+                    </StackPanel>
+                </Button>
+                
+                <Button Background="White" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1" Width="200" Orientation="Vertical" VerticalAlignment="Bottom">
+                <Border Height="1" Opacity="0.5" Background="LightGray" Margin="5, 0, 5, 0"></Border>
+                
+                <!-- dummy image, will be the album art -->
+                <Border Height="100" Width="100" BorderBrush="White" BorderThickness="2" CornerRadius="5" Background="Coral" Margin="0,15,0,0"></Border>
+                
+                <TextBlock Text="Album Title" FontFamily="Poppins" FontSize="14" Foreground="White" HorizontalAlignment="Center" Margin="0, 5, 0, 5" />
+            </StackPanel>
+        </Grid>
+        
+        <DockPanel Background="Brown" Height="100" VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+            <StackPanel VerticalAlignment="Center">
+                <StackPanel Background="Gray" Margin="10,0,10,0" Orientation="Vertical" VerticalAlignment="Top">
+                    <TextBlock Text="Song Name" FontFamily="Poppins" FontSize="18" Foreground="White"/>
+                    <TextBlock Text="Song Artist" FontFamily="Poppins" FontSize="14" Foreground="White"/>
+                </StackPanel>
+                
+                <Grid Background="Aqua" Margin="10,0,10,0" VerticalAlignment="Bottom" >
+                    <TextBlock Text="0:00" FontFamily="Poppins" FontSize="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White"/>
+                    <TextBlock Text="0:00" FontFamily="Poppins" FontSize="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White"/>
+                    <Slider Background="#F5F5F5" Foreground="#1f1f1f" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <Slider.Styles>
+                            <Style Selector="Slider /template/ Track">
+                                <Setter Property="Height" Value="2"/>
+                            </Style>
+                        </Slider.Styles>
+                    </Slider>
+                </Grid>
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+</Window>

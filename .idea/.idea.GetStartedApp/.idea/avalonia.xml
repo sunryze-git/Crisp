@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="GetStartedApp/App.axaml" value="GetStartedApp/GetStartedApp.csproj" />
+        <entry key="GetStartedApp/MainWindow.axaml" value="GetStartedApp/GetStartedApp.csproj" />
+        <entry key="NetTube/App.axaml" value="NetTube/NetTube.csproj" />
+        <entry key="NetTube/MainWindow.axaml" value="NetTube/NetTube.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

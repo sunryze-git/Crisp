@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.1.0" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.1.0" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.0" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0" />
+        <PackageReference Include="Concentus" Version="2.2.2" />
+        <PackageReference Include="Concentus.Oggfile" Version="1.0.6" />
+        <PackageReference Include="JAJ.Packages.MiniAudioEx" Version="1.7.2" />
+        <PackageReference Include="LibVLCSharp" Version="3.9.0" />
+        <PackageReference Include="Matroska.Muxer" Version="0.0.11-preview-01" />
+        <PackageReference Include="NAudio" Version="2.2.1" />
+        <PackageReference Include="NetCoreAudio" Version="2.0.0" />
+        <PackageReference Include="YoutubeExplode" Version="6.4.3" />
+    </ItemGroup>
+</Project>
