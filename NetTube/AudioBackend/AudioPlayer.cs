@@ -1,53 +1,50 @@
 using System;
-using System.Threading;
-using Microsoft.VisualBasic;
-using MiniAudioEx;
+using System.Threading.Tasks;
+using LibVLCSharp.Shared;
 
 namespace NetTube.AudioBackend;
 
-public static class AudioPlayer
+public class AudioPlayer
 {
-    private const uint SampleRate = 48000;
-    private const uint Channels = 2;
-
-    private static AudioSource? _source;
-    private static AudioClip? _clip;
-
-    public delegate void ContextTick();
-    public static event ContextTick? OnContextTick;
+    /// <summary>
+    /// Primary entry point to control the VLC Player.
+    /// You shouldn't need to control the Media part- thats handled by this.
+    /// </summary>
+    public readonly MediaPlayer MediaPlayer;
     
-    public static ulong Position { get; private set; }
-
-    public static void Initialize()
-    {
-        Console.CancelKeyPress += OnCancel;
-        AudioContext.Initialize(SampleRate, Channels);
-        Console.WriteLine("Audio player initialized.");
-    }
+    private readonly LibVLC _libVlc;
     
-    public static void Play(byte[] audioStream)
+    /// <summary>
+    /// Creates a new instance of the Audio Player.
+    /// </summary>
+    public AudioPlayer()
     {
-        Console.WriteLine($"Loaded {audioStream.Length} bytes into memory.");
-        _source = new AudioSource();
-        _clip = new AudioClip(audioStream);
-        _source.Play(_clip);
+        Core.Initialize("");
+        _libVlc = new LibVLC();
+        MediaPlayer = new MediaPlayer(_libVlc);
+        
+        Console.WriteLine("Audio Player Initialized.");
     }
 
-    public static void WaitForPlayback()
+    /// <summary>
+    /// Plays a given YouTube URL file in the background. You will need to block on
+    /// the main thread in order to let this play, otherwise it will not.
+    /// </summary> 
+    /// <param name="url"></param>
+    public async Task Play(string url)
     {
-        while (_source is { IsPlaying: true })
+        var media = new Media(_libVlc, new Uri(url));
+        MediaPlayer.Media = media;
+        
+        await Task.Run(() =>
         {
-            AudioContext.Update();
-            Thread.Sleep(10);
+            Console.WriteLine($"Playing {url}");
+            MediaPlayer.Play();
 
-            Position = _source.Cursor;
-            OnContextTick?.Invoke();
-        }
-    }
-
-    private static void OnCancel(object sender, ConsoleCancelEventArgs e)
-    {
-        _source?.Stop();
-        AudioContext.Deinitialize();
+            while (MediaPlayer.IsPlaying)
+            {
+                Task.Delay(100).Wait();
+            }
+        });
     }
 }

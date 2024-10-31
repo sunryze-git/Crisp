@@ -8,26 +8,26 @@
         Background="DimGray">
     <DockPanel LastChildFill="True">
         <!-- side panel -->
-        <Grid RowDefinitions="*,*" Background="SteelBlue">
+        <Grid RowDefinitions="*,*" Background="#3E517A">
             <StackPanel Grid.Row="0" Width="200" Orientation="Vertical" Margin="15,15,15,0" Spacing="15">
-                <TextBlock Text="NetTube" FontFamily="Poppins" FontSize="24" FontWeight="SemiBold" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock Text="NetTube" FontFamily="Poppins" FontSize="24" FontWeight="SemiBold" Foreground="GhostWhite" HorizontalAlignment="Center"/>
                 <Border Height="1" Opacity="0.5" Background="LightGray" Margin="5, 0, 5, 0"/>
                 
-                <Button Background="White" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBlock Text="Browse" FontSize="16" FontFamily="Poppins" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                <Button Name="BrowseButton" Click="BrowseButton_OnClick" Background="#8EE3F5" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Text="Browse" Foreground="Black" FontSize="16" FontFamily="Poppins" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 
-                <Button Background="White" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
+                <Button Name="LibraryButton" Click="LibraryButton_OnClick" Background="#8EE3F5" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        
+                        <TextBlock Text="Library" Foreground="Black" FontSize="16" FontFamily="Poppins" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 
-                <Button Background="White" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
+                <Button Name="StatisticsButton" Click="StatisticsButton_OnClick" Background="#8EE3F5" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        
+                        <TextBlock Text="Statistics" Foreground="Black" FontSize="16" FontFamily="Poppins" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -38,28 +38,32 @@
                 <!-- dummy image, will be the album art -->
                 <Border Height="100" Width="100" BorderBrush="White" BorderThickness="2" CornerRadius="5" Background="Coral" Margin="0,15,0,0"></Border>
                 
-                <TextBlock Text="Album Title" FontFamily="Poppins" FontSize="14" Foreground="White" HorizontalAlignment="Center" Margin="0, 5, 0, 5" />
+                <TextBlock Name="SongAlbumLabel" Text="Album Title" FontFamily="Poppins" FontSize="14" Foreground="White" HorizontalAlignment="Center" Margin="0, 5, 0, 5" />
             </StackPanel>
         </Grid>
         
-        <DockPanel Background="Brown" Height="100" VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
-            <StackPanel VerticalAlignment="Center">
-                <StackPanel Background="Gray" Margin="10,0,10,0" Orientation="Vertical" VerticalAlignment="Top">
-                    <TextBlock Text="Song Name" FontFamily="Poppins" FontSize="18" Foreground="White"/>
-                    <TextBlock Text="Song Artist" FontFamily="Poppins" FontSize="14" Foreground="White"/>
+        <DockPanel Background="#3E517A" Height="150" VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+            <StackPanel Margin="10,10,10,10" Spacing="10" VerticalAlignment="Center">
+                <StackPanel Name="MediaStack" Orientation="Vertical" VerticalAlignment="Center" Spacing="3">
+                    <TextBlock Name="SongNameLabel" Text="Song Name" FontFamily="Poppins" FontSize="18" Foreground="White"/>
+                    <TextBlock Name="SongArtistLabel" Text="Song Artist" FontFamily="Poppins" FontSize="14" Foreground="White"/>
                 </StackPanel>
                 
-                <Grid Background="Aqua" Margin="10,0,10,0" VerticalAlignment="Bottom" >
-                    <TextBlock Text="0:00" FontFamily="Poppins" FontSize="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White"/>
-                    <TextBlock Text="0:00" FontFamily="Poppins" FontSize="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White"/>
-                    <Slider Background="#F5F5F5" Foreground="#1f1f1f" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                        <Slider.Styles>
-                            <Style Selector="Slider /template/ Track">
-                                <Setter Property="Height" Value="2"/>
-                            </Style>
-                        </Slider.Styles>
-                    </Slider>
-                </Grid>
+                <StackPanel Name="ControlStack" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                    <Button Name="ShuffleButton" Click="ShuffleButton_OnClick" Background="White" Foreground="Black" Content="🔀"/>
+                    <Button Name="BackSkipButton" Click="BackSkipButton_OnClick" Background="White" Foreground="Black" Content="⏮"/>
+                    <Button Name="PlayButton" Click="PlayButton_OnClick" Background="White" Foreground="Black" Content="⏵"/>
+                    <Button Name="ForwardSkipButton" Click="ForwardSkipButton_OnClick" Background="White" Foreground="Black" Content="⏭"/>
+                    <Button Name="RepeatButton" Click="RepeatButton_OnClick" Background="White" Foreground="Black" Content="🔁"/>
+                </StackPanel>
+                
+                <StackPanel Name="PlaybackStack" VerticalAlignment="Bottom">
+                    <Grid VerticalAlignment="Bottom" >
+                        <TextBlock Name="SongCurrentTimeLabel" Text="0:00" FontFamily="Poppins" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White"/>
+                        <TextBlock Name="SongLengthLabel" Text="0:00" FontFamily="Poppins" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White"/>
+                        <Slider Name="PositionSlider" Background="#F5F5F5" Foreground="#1f1f1f" Minimum="0" Maximum="1" VerticalAlignment="Center" ValueChanged="PositionSlider_OnValueChanged"/>
+                    </Grid>
+                </StackPanel>
             </StackPanel>
         </DockPanel>
     </DockPanel>
