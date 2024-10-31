@@ -2762,19 +2762,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/ty/.nuget/packages/": {}
+    "/home/sunryze/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ty/RiderProjects/NetTube/NetTube/NetTube.csproj",
+      "projectUniqueName": "/home/sunryze/RiderProjects/GetStartedApp/NetTube/NetTube.csproj",
       "projectName": "NetTube",
-      "projectPath": "/Users/ty/RiderProjects/NetTube/NetTube/NetTube.csproj",
-      "packagesPath": "/Users/ty/.nuget/packages/",
-      "outputPath": "/Users/ty/RiderProjects/NetTube/NetTube/obj/",
+      "projectPath": "/home/sunryze/RiderProjects/GetStartedApp/NetTube/NetTube.csproj",
+      "packagesPath": "/home/sunryze/.nuget/packages/",
+      "outputPath": "/home/sunryze/RiderProjects/GetStartedApp/NetTube/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/ty/.nuget/NuGet/NuGet.Config"
+        "/home/sunryze/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2856,7 +2856,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.402/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/sunryze/.dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
