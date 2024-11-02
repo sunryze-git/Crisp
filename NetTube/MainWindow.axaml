@@ -6,6 +6,23 @@
         x:Class="NetTube.MainWindow"
         Title="NetTube"
         Background="DimGray">
+    <Window.Styles>
+        <Style Selector="Button.fluent">
+            <!-- Base Button Style -->
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Background" Value="#FF6200EE"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="CornerRadius" Value="8"/>
+
+            <!-- Shadow Effect using Border -->
+            <Setter Property="BoxShadow"></Setter>
+
+        </Style>
+    </Window.Styles>
     <DockPanel LastChildFill="True">
         <!-- side panel -->
         <Grid RowDefinitions="*,*" Background="#3E517A">
@@ -51,13 +68,30 @@
                     <TextBlock Name="SongArtistLabel" Text="Song Artist" FontFamily="Poppins" FontSize="16" Foreground="White"/>
                 </StackPanel>
                 
-                <StackPanel Name="ControlStack" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
-                    <Button Name="ShuffleButton" Click="ShuffleButton_OnClick" Background="White" Foreground="Black" FontSize="20" Content="🔀" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
-                    <Button Name="BackSkipButton" Click="BackSkipButton_OnClick" Background="White" Foreground="Black" FontSize="20" Content="⏮" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
-                    <Button Name="PlayButton" Click="PlayButton_OnClick" Background="White" Foreground="Black" Content="⏵" FontSize="20" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
-                    <Button Name="ForwardSkipButton" Click="ForwardSkipButton_OnClick" Background="White" Foreground="Black" FontSize="20" Content="⏭" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
-                    <Button Name="RepeatButton" Click="RepeatButton_OnClick" Background="White" Foreground="Black" Content="🔁" FontSize="20" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
-                </StackPanel>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <StackPanel DockPanel.Dock="Left" Name="ControlStack" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                        <Button Name="ShuffleButton" Click="ShuffleButton_OnClick" Background="White" Foreground="Black" FontSize="20" Content="🔀" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
+                        <Button Name="BackSkipButton" Click="BackSkipButton_OnClick" Background="White" Foreground="Black" FontSize="20" Content="⏮" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
+                        <Button Name="PlayButton" Click="PlayButton_OnClick" Background="White" Foreground="Black" Content="⏵" FontSize="20" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
+                        <Button Name="ForwardSkipButton" Click="ForwardSkipButton_OnClick" Background="White" Foreground="Black" FontSize="20" Content="⏭" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
+                        <Button Name="RepeatButton" Click="RepeatButton_OnClick" Background="White" Foreground="Black" Content="🔁" FontSize="20" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="50"/>
+                    </StackPanel>
+                    <Button DockPanel.Dock="Right" Classes="fluent" Name="VolumeButton" HorizontalAlignment="Right" Background="White" Foreground="Black" Content="V" FontSize="20" Height="50" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Button.Flyout>
+                            <Flyout Placement="LeftEdgeAlignedBottom">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Volume" Margin="10" Foreground="White" HorizontalAlignment="Center"/>
+                                    <Slider Name="VolumeSlider"
+                                            Minimum="0" Maximum="100"
+                                            Width="150"
+                                            Value="100"
+                                            Orientation="Horizontal"
+                                            ValueChanged="VolumeSlider_OnValueChanged"/>
+                                </StackPanel>
+                                </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Grid>
                 
                 <StackPanel Name="PlaybackStack" VerticalAlignment="Bottom">
                     <Grid VerticalAlignment="Bottom" >

@@ -13,6 +13,7 @@ using Avalonia.Threading;
 using LibVLCSharp.Shared;
 using NetTube.AudioBackend;
 using YoutubeExplode;
+using YoutubeExplode.Common;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 
@@ -20,11 +21,11 @@ namespace NetTube
 {
     public partial class MainWindow : Window
     {
-        const string videoUrl = "https://music.youtube.com/watch?v=Nn-qUWyVBqw";
+        private const string VideoUrl = "https://www.youtube.com/watch?v=ms_8Yfjcymk";
 
         private readonly AudioPlayer _audioPlayer = new();
-        private readonly YoutubeClient _client;
-        private Video? _video;
+        private readonly YoutubeClient _youtubeClient;
+        private Video? _currentVideo;
 
         private bool _sliderChangeIsProgrammatic;
         private Queue<VideoInformation> _queue = [];
@@ -42,37 +43,56 @@ namespace NetTube
         public MainWindow()
         {
             InitializeComponent();
-            _client = new YoutubeClient();
+            _youtubeClient = new YoutubeClient();
             
             // Subscribe Content to the Media Player
             _audioPlayer.MediaPlayer.MediaChanged += MediaPlayerOnMediaChanged;
             _audioPlayer.MediaPlayer.PositionChanged += MediaPlayerOnPositionChanged;
+            _audioPlayer.MediaPlayer.EndReached += MediaPlayerOnEndReached;
+            _audioPlayer.MediaPlayer.Volume = 100;
         }
 
-        private static void PlayQueue()
+        private void MediaPlayerOnEndReached(object? sender, EventArgs e)
         {
-            // 
+            if (_queue.Count == 0) return;
+            PlayQueue(); // if queue isn't empty, play next one
+        }
+
+        // Dequeues the next song, gets the stream URL, and plays it with the media player
+        private async void PlayQueue()
+        {
+            if (_queue.Count == 0) return;
+            
+            var nextVideo = _queue.Dequeue();
+            await _audioPlayer.Play(nextVideo.StreamUrl);
+        }
+
+        // Gets an audio stream URL from a YouTube Video URL, also sets current video
+        private async Task<string> GetAudioStreamUrl(string url)
+        {
+            _currentVideo = await _youtubeClient.Videos.GetAsync(url);
+            var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(_currentVideo.Id);
+            var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
+
+            return streamInfo.Url;
         }
         
+        // Adds a YouTube URL to the Queue
         private async Task AddToQueue(string url)
         {
-            _video = await _client.Videos.GetAsync(url);
-            var streamManifest = await _client.Videos.Streams.GetManifestAsync(_video.Id);
-            var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
+            var streamUrl = await GetAudioStreamUrl(url);
+            if (_currentVideo is null) return;
 
             // creates new video object that makes it easier to get what we need
             var playableVideo = new VideoInformation
             {
-                Title = _video.Title,
-                Artist = _video.Author.ChannelTitle,
-                Duration = _video.Duration,
-                StreamUrl = streamInfo.Url,
-                ThumbnailUrl = _video.Thumbnails.FirstOrDefault()?.Url
+                Title = _currentVideo.Title,
+                Artist = _currentVideo.Author.ChannelTitle,
+                Duration = _currentVideo.Duration,
+                StreamUrl = streamUrl,
+                ThumbnailUrl = _currentVideo.Thumbnails.FirstOrDefault()?.Url
             };
             _queue.Enqueue(playableVideo);
-            
-            // TODO: work on queue system
-            await _audioPlayer.Play(streamInfo.Url);
         }
 
         private void MediaPlayerOnPositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
@@ -80,10 +100,10 @@ namespace NetTube
             // Update UI with new position information
             Dispatcher.UIThread.Post(() =>
             {
-                if (_video is null) return;
+                if (_currentVideo is null) return;
                 
                 var currentTime = TimeSpan.FromMilliseconds(_audioPlayer.MediaPlayer.Time);
-                var currentPos = currentTime.TotalSeconds / _video.Duration!.Value.TotalSeconds;
+                var currentPos = currentTime.TotalSeconds / _currentVideo.Duration!.Value.TotalSeconds;
                 
                 _sliderChangeIsProgrammatic = true;
                 PositionSlider.Value = currentPos;
@@ -104,14 +124,7 @@ namespace NetTube
                 await using var imageStream = new MemoryStream(data);
                 var preCrop = new Bitmap(imageStream);
 
-                var cropRect = new Rect(
-                    (preCrop.PixelSize.Width) - 90d,
-                    (preCrop.PixelSize.Height) - 90d,
-                    180,
-                    180
-                );
-                
-                return preCrop.Clone(cropRect, preCrop.PixelFormat);
+                return preCrop;
             }
             catch (HttpRequestException e)
             {
@@ -122,21 +135,17 @@ namespace NetTube
 
         private async void MediaPlayerOnMediaChanged(object? sender, MediaPlayerMediaChangedEventArgs e)
         {
-            if (_video is null) return;
-            foreach (var thumb in _video.Thumbnails)
-            {
-                Console.WriteLine(thumb.Url);
-            }
+            if (_currentVideo is null) return;
             
-            var thumbnail = await LoadUrlImage(_video.Thumbnails.Last().Url);
+            var thumbnail = await LoadUrlImage(_currentVideo.Thumbnails.GetWithHighestResolution().Url);
             
             // Update the UI with new media information
             Dispatcher.UIThread.Post(() =>
             {
                 
-                SongNameLabel.Text = _video.Title;
-                SongArtistLabel.Text = _video.Author.ToString();
-                SongLengthLabel.Text = _video.Duration!.Value.ToString(@"m\:ss");
+                SongNameLabel.Text = _currentVideo.Title;
+                SongArtistLabel.Text = _currentVideo.Author.ToString();
+                SongLengthLabel.Text = _currentVideo.Duration!.Value.ToString(@"m\:ss");
                 ThumbnailImage.Source = thumbnail;
             });
         }
@@ -144,23 +153,18 @@ namespace NetTube
         // Interactive Methods
         private void PositionSlider_OnValueChanged(object? sender, RangeBaseValueChangedEventArgs e)
         {
-            if (_video is null) return;
+            if (_currentVideo is null) return;
+            if (_sliderChangeIsProgrammatic) return;
             
-            if (_sliderChangeIsProgrammatic)
-            {
-                Console.WriteLine($"Position Slider Changed to: {e.NewValue}");
-            }
-            else
-            {
-                // slider stores percentage through song 0.00 to 1.00
-                var newTime = e.NewValue * _video.Duration!.Value.TotalMilliseconds; // gets new time in ms
-                _audioPlayer.MediaPlayer.Time = (long) newTime;
-            }
+            // slider stores percentage through song 0.00 to 1.00
+            var newTime = e.NewValue * _currentVideo.Duration!.Value.TotalMilliseconds; // gets new time in ms
+            _audioPlayer.MediaPlayer.Time = (long) newTime;
         }
 
         private async void ShuffleButton_OnClick(object? sender, RoutedEventArgs e)
         {
-            await AddToQueue(videoUrl);
+            await AddToQueue(VideoUrl);
+            PlayQueue();
         }
 
         private void BackSkipButton_OnClick(object? sender, RoutedEventArgs e)
@@ -170,6 +174,7 @@ namespace NetTube
 
         private void PlayButton_OnClick(object? sender, RoutedEventArgs e)
         {
+            if (_currentVideo is null) return;
             _audioPlayer.MediaPlayer.SetPause(_audioPlayer.MediaPlayer.IsPlaying);
         }
 
@@ -196,6 +201,11 @@ namespace NetTube
         private void BrowseButton_OnClick(object? sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void VolumeSlider_OnValueChanged(object? sender, RangeBaseValueChangedEventArgs e)
+        {
+            _audioPlayer.MediaPlayer.Volume = (int)e.NewValue;
         }
     }
 }
