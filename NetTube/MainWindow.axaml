@@ -6,23 +6,6 @@
         x:Class="NetTube.MainWindow"
         Title="NetTube"
         Background="DimGray">
-    <Window.Styles>
-        <Style Selector="Button.fluent">
-            <!-- Base Button Style -->
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Background" Value="#FF6200EE"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="CornerRadius" Value="8"/>
-
-            <!-- Shadow Effect using Border -->
-            <Setter Property="BoxShadow"></Setter>
-
-        </Style>
-    </Window.Styles>
     <DockPanel LastChildFill="True">
         <!-- side panel -->
         <Grid RowDefinitions="*,*" Background="#3E517A">
@@ -64,7 +47,7 @@
         <DockPanel Background="#3E517A" Height="200" VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
             <StackPanel Margin="10,10,10,10" Spacing="10" VerticalAlignment="Center">
                 <StackPanel Name="MediaStack" Orientation="Vertical" VerticalAlignment="Center" Spacing="3">
-                    <TextBlock Name="SongNameLabel" Text="Song Name" FontFamily="Poppins" FontSize="22" Foreground="White"/>
+                    <TextBlock Name="SongNameLabel" Text="name" FontFamily="Poppins" FontSize="22" Foreground="White"/>
                     <TextBlock Name="SongArtistLabel" Text="Song Artist" FontFamily="Poppins" FontSize="16" Foreground="White"/>
                 </StackPanel>
                 
