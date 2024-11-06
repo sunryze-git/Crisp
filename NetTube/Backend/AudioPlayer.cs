@@ -17,9 +17,9 @@ public class AudioPlayer
     /// </summary>
     public readonly MediaPlayer MediaPlayer;
 
-    public bool SliderChangeIsProgrammatic;
+    public bool PositionChangeIsProgrammatic;
 
-    private static MediaManager.VideoInformation _currentVideo;
+    internal MediaManager.VideoInformation CurrentVideo;
     private static readonly Queue<MediaManager.VideoInformation> Queue = [];
     private readonly LibVLC _libVlc;
     
@@ -52,7 +52,7 @@ public class AudioPlayer
         if (Queue.Count == 0) return;
         
         var nextVideo = Queue.Dequeue();
-        _currentVideo = nextVideo;
+        CurrentVideo = nextVideo;
         await Play(nextVideo);
     }
 
@@ -134,9 +134,9 @@ public class AudioPlayer
             var currentTime = TimeSpan.FromMilliseconds(MediaPlayer.Time);
             var currentSliderPos = currentTime.TotalMilliseconds / MediaPlayer.Media!.Duration;
 
-            SliderChangeIsProgrammatic = true;
-            // TODO: change slider pos
-            SliderChangeIsProgrammatic = false;
+            PositionChangeIsProgrammatic = true;
+            // TODO: update slider idk how
+            PositionChangeIsProgrammatic = false;
             
             // TODO: update current time label, set to @"m\:ss" format
         });
@@ -149,7 +149,7 @@ public class AudioPlayer
     /// <param name="e"></param>
     private async void MediaPlayer_OnMediaChange(object? sender, MediaPlayerMediaChangedEventArgs e)
     {
-        var thumbnail = await LoadUrlImage(_currentVideo.ThumbnailUrl!);
+        var thumbnail = await LoadUrlImage(CurrentVideo.ThumbnailUrl!);
         
         // Update UI
         Dispatcher.UIThread.Post(() =>

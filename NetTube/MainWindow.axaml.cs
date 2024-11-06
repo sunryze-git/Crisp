@@ -23,9 +23,6 @@ namespace NetTube
     {
         private const string VideoUrl = "https://www.youtube.com/watch?v=ms_8Yfjcymk";
         private readonly AudioPlayer _audioPlayer;
-        
-        internal string TestBinding = "test";
-
         private readonly ClientManager _clientManager;
         
         public MainWindow()
@@ -39,11 +36,16 @@ namespace NetTube
         // Interactive Methods
         private void PositionSlider_OnValueChanged(object? sender, RangeBaseValueChangedEventArgs e)
         {
-            if (SliderChangeIsProgrammatic) return;
+            if (_audioPlayer.PositionChangeIsProgrammatic) return;
             
             // slider stores percentage through song 0.00 to 1.00
-            var newTime = e.NewValue * _currentVideo.Duration!.Value.TotalMilliseconds; // gets new time in ms
+            var newTime = e.NewValue * _audioPlayer.CurrentVideo.Duration!.Value.TotalMilliseconds; // gets new time in ms
             _audioPlayer.MediaPlayer.Time = (long) newTime;
+        }
+
+        internal void UpdateSliderPosition(double sliderPos)
+        {
+            PositionSlider.Value = sliderPos;
         }
 
         private async void ShuffleButton_OnClick(object? sender, RoutedEventArgs e)
