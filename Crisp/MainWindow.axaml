@@ -4,13 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
         x:Class="NetTube.MainWindow"
-        Title="NetTube"
+        Title="Crisp"
         Background="DimGray">
     <DockPanel LastChildFill="True">
         <!-- side panel -->
         <Grid RowDefinitions="*,*" Background="#3E517A">
             <StackPanel Grid.Row="0" Width="200" Orientation="Vertical" Margin="15,15,15,0" Spacing="15">
-                <TextBlock Text="NetTube" FontFamily="Poppins" FontSize="24" FontWeight="SemiBold" Foreground="GhostWhite" HorizontalAlignment="Center"/>
+                <TextBlock Text="Crisp" FontFamily="Poppins" FontSize="24" FontWeight="SemiBold" Foreground="GhostWhite" HorizontalAlignment="Center"/>
                 <Border Height="1" Opacity="0.5" Background="LightGray" Margin="5, 0, 5, 0"/>
                 
                 <Button Name="BrowseButton" Click="BrowseButton_OnClick" Background="#8EE3F5" Height="40" CornerRadius="10" HorizontalAlignment="Stretch">

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTube", "NetTube\NetTube.csproj", "{7F259E6E-2B28-46EB-B990-96233553EEC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crisp", "Crisp\Crisp.csproj", "{7F259E6E-2B28-46EB-B990-96233553EEC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
